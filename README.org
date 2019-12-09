@@ -1,0 +1,36 @@
+* Cabal Downloader Demo
+  This cross platform demo application shows how to use the [[https://hackage.haskell.org/package/downloader][downloader]] library
+  to download assets off the Web at build time. In this case it is just a text
+  file but could be any resource (images, fonts etc.).
+
+  When you run the build process Cabal downloads the [[https://tools.ietf.org/rfc/rfc8259.txt][JSON RFC]] and
+  programatically adds it to the [[https://www.haskell.org/cabal/users-guide/developing-packages.html#pkg-field-data-files][data-files]] section of the package description
+  and then continues to build the application. When the application is run it
+  reads the RFC from the filesystem and spits out the first 15 lines. From
+  the point of view of the application it is as though the RFC was physically
+  bundled with the project.
+
+  To install and test do:
+
+  #+begin_example
+  > stack build
+  > stack exec print-json-rfc
+  
+Internet Engineering Task Force (IETF)                      T. Bray, Ed.
+Request for Comments: 8259                                    Textuality
+Obsoletes: 7159                                            December 2017
+Category: Standards Track
+ISSN: 2070-1721
+
+
+     The JavaScript Object Notation (JSON) Data Interchange Format
+
+  #+end_example
+
+  Most of the action is happening in [[file:Setup.hs][Setup.hs]] where the [[https://hackage.haskell.org/package/Cabal-3.0.0.0/docs/Distribution-Simple.html#v:confHook][confHook]] is overridden
+  with 'myConfHook'. The hook is invoked before any executables or libraries are
+  compiled, it uses [[http://hackage.haskell.org/package/downloader][downloader]] to download the RFC to the root of the project
+  and adds the path to [[https://hackage.haskell.org/package/Cabal-3.0.0.0/docs/Distribution-Types-PackageDescription.html#t:PackageDescription][PackageDescription]] which stores any file paths mentioned
+  in the 'data-files' stanza in the Cabal file. To build steps that occur
+  after the configuration step there is no difference and access to the downloaded
+  resource is transparent.

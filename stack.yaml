@@ -1,0 +1,4 @@
+resolver: lts-14.16
+allow-newer: true
+extra-deps:
+- downloader-0.1.0.0

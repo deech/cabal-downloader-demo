@@ -1,0 +1,4 @@
+.stack-work/
+cabal-downloader-demo.cabal
+*~
+/data-files/jsonrfc.txt
