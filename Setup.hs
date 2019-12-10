@@ -14,6 +14,7 @@ main = defaultMainWithHooks (simpleUserHooks { confHook = myConfHook })
 myConfHook :: (GenericPackageDescription, HookedBuildInfo) -> ConfigFlags -> IO LocalBuildInfo
 myConfHook (gpd, hbi) cflags = do
   _ <- downloadFile "https://tools.ietf.org/rfc/rfc8259.txt"
+                    Nothing
                     "data-files"
                     "jsonrfc.txt"
                     (Overwrite True)
